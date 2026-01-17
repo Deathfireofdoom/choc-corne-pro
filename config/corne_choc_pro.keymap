@@ -12,8 +12,8 @@
 // set host os to macOS
 #define HOST_OS 1
 
-#include "zmk-nodefree-config/helper.h"
-#include "zmk-nodefree-config/international_chars/swedish.dtsi"
+#include "zmk-nodefree-config/include/zmk-helpers/helper.h"
+#include "zmk-nodefree-config/include/zmk-helpers/unicode-chars/swedish.dtsi"
 
 &sk {  // sticky-key config
     release-after-ms = <900>;
