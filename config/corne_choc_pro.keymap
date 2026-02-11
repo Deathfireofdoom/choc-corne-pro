@@ -83,17 +83,6 @@ DEFAULT_HOLD_TAP(ht, &kp, &kp)
 };
 
 / {
-    macros {
-        hacker_mode: hacker_mode {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            // Toggle RGB on/off - set your preferred color/effect once via settings layer
-            bindings = <&rgb_ug RGB_TOG>;
-        };
-    };
-};
-
-/ {
     conditional_layers {
         compatible = "zmk,conditional-layers";
         tri_layer {
@@ -123,11 +112,6 @@ DEFAULT_HOLD_TAP(ht, &kp, &kp)
             key-positions = <23 24>;  // J + K = ESC
             bindings = <&kp ESC>;
         };
-        combo_hacker_mode {
-            timeout-ms = <35>;
-            key-positions = <1 12>;  // Q + P
-            bindings = <&hacker_mode>;
-        };
     };
 };
 
@@ -138,14 +122,14 @@ DEFAULT_HOLD_TAP(ht, &kp, &kp)
         default_layer {
             display-name = "QWERTY";
             // --------------------------------------------------------------------------------
-            // |TAB/ESC|  Q  |  W  |  E  |  R  |  T  |  MUTE |  PP   |  Y  |  U   |  I  |  O  |  P  | BKSP/DEL |
-            // | CTRL  |  A  |  S  |  D  |  F  |  G  |  LALT |  RALT |  H  |  J   |  K  |  L  |  ö  |  ä       |
+            // |TAB/ESC|  Q  |  W  |  E  |  R  |  T  |  MUTE | PP  |  Y  |  U   |  I  |  O  |  P  | BKSP/DEL |
+            // | CTRL  |  A  |  S  |  D  |  F  |  G  |  F13  | F14 |  H  |  J   |  K  |  L  |  ö  |  ä       |
             // | SHFT* |  Z  |  X  |  C  |  V  |  B  |               |  N  |  M   | ,/; | ./: |  -  | ESC      |
             //                     | GUI | LWR | SPC |               | ENT | RSE  | BKSP/DEL |
             // Combo: ö + ä = å | SHFT* = double-tap for caps-word
             bindings = <
                 TABESC      &kp Q &kp W &kp E &kp R &kp T &kp C_MUTE &kp C_PP &kp Y &kp U  &kp I         &kp O       &kp P     &bak_del
-                &kp LCTRL   &kp A &kp S &kp D &kp F &kp G &kp LALT   &kp RALT &kp H &kp J  &kp K         &kp L       &sv_oe    &sv_ae
+                &kp LCTRL   &kp A &kp S &kp D &kp F &kp G &kp F13    &kp F14  &kp H &kp J  &kp K         &kp L       &sv_oe    &sv_ae
                 &smart_shft &kp Z &kp X &kp C &kp V &kp B                     &kp N &kp M  &nordic_comma &nordic_dot &kp MINUS &kp ESC
                                         &kp LGUI &mo 1 &kp SPACE              &kp RET &mo 2 &bak_del
             >;
@@ -156,12 +140,12 @@ DEFAULT_HOLD_TAP(ht, &kp, &kp)
             display-name = "NUMBER";
             // -----------------------------------------------------------------------------------------
             // |TAB/ESC| 1/! | 2/" | 3/# | 4/$ | 5/% |      |      | 6/& | 7// | 8/( | 9/) | 0/= | BKSP/DEL |
-            // | CTRL  |  F1 |  F2 |  F3 |  F4 |  F5 |      |      | LFT | DWN |  UP | RGT |     | DEL      |
+            // | CTRL  |  F1 |  F2 |  F3 |  F4 |  F5 | F15  | F16  | LFT | DWN |  UP | RGT |     | DEL      |
             // | SHFT* |  F6 |  F7 |  F8 |  F9 | F10 |             | F11 | F12 | HOME| END | PGUP| PGDN     |
             //                     | GUI |     | SPC |             | ENT |     |     |
             bindings = <
                 TABESC      &nordic_1 &nordic_2 &nordic_3 &nordic_4 &nordic_5 &trans &trans &nordic_6 &nordic_7 &nordic_8 &nordic_9 &nordic_0 &bak_del
-                &kp LCTRL   &kp F1    &kp F2    &kp F3    &kp F4    &kp F5    &trans &trans &kp LEFT  &kp DOWN  &kp UP    &kp RIGHT &trans    &kp DEL
+                &kp LCTRL   &kp F1    &kp F2    &kp F3    &kp F4    &kp F5    &kp F15 &kp F16 &kp LEFT  &kp DOWN  &kp UP    &kp RIGHT &trans    &kp DEL
                 &smart_shft &kp F6    &kp F7    &kp F8    &kp F9    &kp F10                 &kp F11   &kp F12   &kp HOME  &kp END   &kp PG_UP &kp PG_DN
                                                 &kp LGUI  &trans    &kp SPACE              &kp RET   &trans    &trans
             >;
@@ -169,17 +153,17 @@ DEFAULT_HOLD_TAP(ht, &kp, &kp)
 
         raise_layer {
             display-name = "SYMBOL";
-            // Coding-focused symbol layer - main layer for symbols
+            // Coding-focused symbol layer - improved from main
             // -----------------------------------------------------------------------------------------
             // |TAB/ESC|  !  |  @  |  #  |  $  |  %  |      |      |  ^  |  &  |  *  |  (  |  )  | BKSP/DEL |
-            // | CTRL  |  `  |  '  |  "  |  <  |  >  |      |      |  =  |  {  |  [  |  ]  |  }  |  \       |
-            // | SHFT* |  ~  |  |  |  ?  |  /  |  ^  |             |  +  |  -  |  _  |  ;  |  :  | ESC      |
+            // | CTRL  |  `  |  '  |  "  |  ;  |  :  | F17  | F18  |  -  |  =  |  [  |  ]  |  \  |  `       |
+            // | SHFT* |  ~  |  <  |  >  |  ?  |  /  |             |  _  |  +  |  {  |  }  |  |  | ESC      |
             //                      | GUI |     | SPC |             | ENT |     | BKSP/DEL |
-            // Logic: Top=shifted nums, Middle=quotes+brackets, Bottom=operators+punctuation
+            // Logic: ; : on home row F/G, < > ? / easy access left bottom
             bindings = <
-                TABESC      &kp EXCL  &kp AT   &kp HASH  &kp DLLR  &kp PRCNT &trans &trans &kp CARET &kp AMPS  &kp ASTRK &kp LPAR  &kp RPAR  &bak_del
-                &kp LCTRL   &kp GRAVE &kp SQT  &kp DQT   &kp LT    &kp GT    &trans &trans &kp EQUAL &kp LBRC  &kp LBKT  &kp RBKT  &kp RBRC  &kp BSLH
-                &smart_shft &kp TILDE &kp PIPE &kp QMARK &kp FSLH  &kp CARET              &kp PLUS  &kp MINUS &kp UNDER &kp SEMI  &kp COLON &kp ESC
+                TABESC      &kp EXCL  &kp AT   &kp HASH  &kp DLLR  &kp PRCNT &trans &trans &kp CARET &kp AMPS  &kp ASTRK &kp LPAR  &kp RPAR &bak_del
+                &kp LCTRL   &kp GRAVE &kp SQT  &kp DQT   &kp SEMI  &kp COLON &kp F17 &kp F18 &kp MINUS &kp EQUAL &kp LBKT  &kp RBKT  &kp BSLH &kp GRAVE
+                &smart_shft &kp TILDE &kp LT   &kp GT    &kp QMARK &kp FSLH              &kp UNDER &kp PLUS  &kp LBRC  &kp RBRC  &kp PIPE &kp ESC
                                                &kp LGUI  &trans    &kp SPACE              &kp RET   &trans    &bak_del
             >;
         };
